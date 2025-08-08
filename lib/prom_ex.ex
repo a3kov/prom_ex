@@ -552,7 +552,7 @@ defmodule PromEx do
     spec =
       cond do
         Code.ensure_loaded?(Bandit) ->
-          Bandit.child_spec(
+          server_spec(
             scheme: scheme,
             plug: plug_definition,
             port: port
@@ -562,7 +562,7 @@ defmodule PromEx do
           transport_options = [num_acceptors: config.pool_size]
           cowboy_opts = Keyword.drop(config.cowboy_opts, [:port, :transport_options])
 
-          Plug.Cowboy.child_spec(
+          server_spec(
             ref: process_name,
             scheme: scheme,
             plug: plug_definition,
@@ -582,6 +582,14 @@ defmodule PromEx do
 
   def metrics_server_child_spec(acc, :disabled, _prom_ex_module, _process_name) do
     acc
+  end
+
+  if Code.ensure_loaded?(Bandit) do
+    defp server_spec(params), do: Bandit.child_spec(params)
+  end
+
+  if Code.ensure_loaded?(Cowboy) do
+    defp server_spec(params), do: Plug.Cowboy.child_spec(params)
   end
 
   @doc false
