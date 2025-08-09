@@ -1,24 +1,26 @@
-defmodule PromEx.Storage.Peep do
-  @moduledoc """
-  This store uses [Peep](https://github.com/rkallos/peep) as the storage
-  mechanism for metrics.
-  """
+if Code.ensure_loaded?(Peep) do
+  defmodule PromEx.Storage.Peep do
+    @moduledoc """
+    This store uses [Peep](https://github.com/rkallos/peep) as the storage
+    mechanism for metrics.
+    """
 
-  @behaviour PromEx.Storage
+    @behaviour PromEx.Storage
 
-  @impl true
-  def scrape(name) do
-    Peep.get_all_metrics(name)
-    |> Peep.Prometheus.export()
-  end
+    @impl true
+    def scrape(name) do
+      Peep.get_all_metrics(name)
+      |> Peep.Prometheus.export()
+    end
 
-  @impl true
-  def child_spec(name, metrics) do
-    opts = [
-      name: name,
-      metrics: metrics
-    ]
+    @impl true
+    def child_spec(name, metrics) do
+      opts = [
+        name: name,
+        metrics: metrics
+      ]
 
-    Peep.child_spec(opts)
+      Peep.child_spec(opts)
+    end
   end
 end
