@@ -64,7 +64,7 @@ defmodule PromEx.MixProject do
 
       # Optional storages (one is required)
       {:telemetry_metrics_prometheus_core, "~> 1.2", optional: true},
-      {:peep, "~> 3.0 or ~> 4.0", optional: true},
+      {:peep, "~> 4.0 or ~> 5.0", optional: true},
 
       # Optional dependencies depending on what telemetry events the user is interested in capturing
       {:phoenix, ">= 1.7.0", optional: true},
