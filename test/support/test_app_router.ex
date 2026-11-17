@@ -7,6 +7,8 @@ defmodule TestApp.UserController do
 end
 
 defmodule TestApp.Router do
+  @moduledoc false
+
   use Phoenix.Router
 
   import Phoenix.LiveView.Router
@@ -22,6 +24,8 @@ defmodule TestApp.Router do
 end
 
 defmodule TestApp.ExternalRouter do
+  @moduledoc false
+
   use Phoenix.Router
 
   import Phoenix.LiveView.Router
@@ -37,6 +41,8 @@ defmodule TestApp.ExternalRouter do
 end
 
 defmodule TestApp.InternalRouter do
+  @moduledoc false
+
   use Phoenix.Router
 
   import Phoenix.LiveView.Router
@@ -51,7 +57,19 @@ defmodule TestApp.InternalRouter do
   end
 end
 
+defmodule TestApp.OverlapRouter do
+  @moduledoc false
+
+  use Phoenix.Router
+
+  scope "/", TestApp do
+    get "/users", UserController, :overlap_index
+  end
+end
+
 defmodule TestApp.PlugRouter do
+  @moduledoc false
+
   use Plug.Router
 
   plug PromEx.Plug, prom_ex_module: TestApp.PromEx, path: "/metrics"

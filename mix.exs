@@ -4,7 +4,7 @@ defmodule PromEx.MixProject do
   def project do
     [
       app: :prom_ex,
-      version: "1.11.0",
+      version: "1.12.0",
       elixir: "~> 1.14",
       name: "PromEx",
       source_url: "https://github.com/akoutmos/prom_ex",
@@ -13,13 +13,6 @@ defmodule PromEx.MixProject do
       elixirc_paths: elixirc_paths(Mix.env()),
       start_permanent: Mix.env() == :prod,
       test_coverage: [tool: ExCoveralls],
-      preferred_cli_env: [
-        coveralls: :test,
-        "coveralls.detail": :test,
-        "coveralls.post": :test,
-        "coveralls.html": :test,
-        "coveralls.github": :test
-      ],
       dialyzer: [
         plt_add_apps: [
           :absinthe,
@@ -51,6 +44,18 @@ defmodule PromEx.MixProject do
   defp elixirc_paths(:test), do: ["lib", "test/support"]
   defp elixirc_paths(_), do: ["lib"]
 
+  def cli do
+    [
+      preferred_envs: [
+        coveralls: :test,
+        "coveralls.detail": :test,
+        "coveralls.post": :test,
+        "coveralls.html": :test,
+        "coveralls.github": :test
+      ]
+    ]
+  end
+
   # Run "mix help deps" to learn about dependencies.
   defp deps do
     [
@@ -60,11 +65,12 @@ defmodule PromEx.MixProject do
       {:telemetry, ">= 1.0.0"},
       {:telemetry_poller, "~> 1.1"},
       {:telemetry_metrics, "~> 1.0"},
+      {:peep, "~> 3.0 or ~> 4.0"},
       {:octo_fetch, "~> 0.4"},
 
       # Optional storages (one is required)
       {:telemetry_metrics_prometheus_core, "~> 1.2", optional: true},
-      {:peep, "~> 4.0 or ~> 5.0", optional: true},
+      {:peep, "~> 6.0", optional: true},
 
       # Optional dependencies depending on what telemetry events the user is interested in capturing
       {:phoenix, ">= 1.7.0", optional: true},
@@ -72,18 +78,18 @@ defmodule PromEx.MixProject do
       {:plug, ">= 1.16.0", optional: true},
       {:plug_cowboy, ">= 2.6.0", optional: true},
       {:bandit, ">= 1.0.0", optional: true},
-      {:ecto, ">= 3.11.0", optional: true},
+      {:ecto, ">= 3.14.0", optional: true},
       {:oban, ">= 2.10.0", optional: true},
-      {:absinthe, ">= 1.7.0", optional: true},
+      {:absinthe, ">= 1.8.0", optional: true},
       {:broadway, ">= 1.1.0", optional: true},
 
       # PromEx development related dependencies
       {:bypass, "~> 2.1", only: :test},
-      {:ex_doc, "~> 0.34.2", only: :dev},
+      {:ex_doc, "~> 0.40.3", only: :dev},
       {:excoveralls, "~> 0.18.2", only: :test, runtime: false},
-      {:doctor, "~> 0.21.0", only: :dev},
-      {:credo, "~> 1.7.7", only: :dev},
-      {:dialyxir, "~> 1.4.3", only: :dev, runtime: false}
+      {:doctor, "~> 0.23.0", only: :dev},
+      {:credo, "~> 1.7.19", only: :dev},
+      {:dialyxir, "~> 1.4.7", only: :dev, runtime: false}
     ]
   end
 
@@ -110,7 +116,7 @@ defmodule PromEx.MixProject do
   defp package do
     [
       name: "prom_ex",
-      files: ~w(lib priv/grafana_agent priv/*.eex mix.exs README.md LICENSE CHANGELOG.md),
+      files: ~w(lib guides priv/grafana_agent priv/*.eex mix.exs README.md LICENSE CHANGELOG.md),
       licenses: ["MIT"],
       maintainers: ["Alex Koutmos"],
       links: %{
