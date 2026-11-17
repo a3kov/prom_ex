@@ -65,7 +65,6 @@ defmodule PromEx.MixProject do
       {:telemetry, ">= 1.0.0"},
       {:telemetry_poller, "~> 1.1"},
       {:telemetry_metrics, "~> 1.0"},
-      {:peep, "~> 3.0 or ~> 4.0"},
       {:octo_fetch, "~> 0.4"},
 
       # Optional storages (one is required)
